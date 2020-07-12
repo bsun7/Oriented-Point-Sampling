@@ -26,3 +26,5 @@ If you find our work useful in your research, please consider citing:
 "FSPF.cpp": Our implementation of FSPF from RSS'11 paper "Fast sampling plane filtering, polygon construction and merging from depth images." (http://www.cs.cmu.edu/~coral/projects/cobot/papers/PlaneFiltering.pdf)  
 "ops.cpp": OPS plane detection method in our paper.  
 "read_points_gt.cpp": Ground truth plane generation method in our paper.
+## License
+Our code is released under MIT License (see LICENSE file for details).
