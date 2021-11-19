@@ -292,7 +292,7 @@ int main(int argc, char **argv)
 	// init a node named 'read_points'
 	ros::init(argc, argv, "read_points");  
 	ros::NodeHandle n;
-
+	
 	//read 3D points from pcd file
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1 (new pcl::PointCloud<pcl::PointXYZ>);
 	cloud1 = ReadPCD("/home/victor/project_ws/src/ground_plane/data/pcd_night/top1.pcd");
