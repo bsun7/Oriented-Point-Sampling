@@ -7,6 +7,7 @@
 //#include <boost/thread/thread.hpp>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
+#include <pcl/filters/filter.h>
 #include <pcl/point_cloud.h>
 #include <pcl/kdtree/kdtree_flann.h>
 //#include <pcl/sample_consensus/ransac.h>
@@ -33,14 +34,21 @@ clock_t t[100];
 pcl::PointCloud<pcl::PointXYZ>::Ptr ReadPCD(char* filePath)
 {
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+	// pcl::io library used for load PCD file 
 	if (pcl::io::loadPCDFile<pcl::PointXYZ> (filePath, *cloud) == -1)
 	{
 		PCL_ERROR("Couldn't read file box_cloud.pcd \n");
-		
 	}
 	return (cloud);
 }
 
+pcl::PointCloud<pcl::PointXYZ>::Ptr DeleteNAN(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud)
+{
+	std::vector<int> indices;
+	pcl::PointCloud<pcl::PointXYZ>::Ptr out;
+	pcl::removeNaNFromPointCloud(*cloud, *out, indices);
+	return out;
+}
 
 //k nearest neighbor search
 void PointsKNN(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud, int pointNum, int maxK, int** indexKNN, double** distKNN)
@@ -281,8 +289,10 @@ int main(int argc, char **argv)
 {
 	srand((unsigned)time(NULL));
 	t[1]=clock();
-	ros::init(argc, argv, "read_points");
+	// init a node named 'read_points'
+	ros::init(argc, argv, "read_points");  
 	ros::NodeHandle n;
+	
 	//read 3D points from pcd file
 	pcl::PointCloud<pcl::PointXYZ>::Ptr cloud1 (new pcl::PointCloud<pcl::PointXYZ>);
 	cloud1 = ReadPCD("/home/victor/project_ws/src/ground_plane/data/pcd_night/top1.pcd");
